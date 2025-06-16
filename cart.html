@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart - E-commerce Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Header Section - You might want to copy your existing header here -->
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo-colored.png" alt="Brand Logo" class="brand-logo">
+                </a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search">
+                <select>
+                    <option>All category</option>
+                </select>
+                <button>Search</button>
+            </div>
+            <div class="user-actions">
+                <a href="#" class="action-item"><i class="fas fa-user"></i>Profile</a>
+                <a href="#" class="action-item"><i class="fas fa-envelope"></i>Message</a>
+                <a href="#" class="action-item"><i class="fas fa-heart"></i>Orders</a>
+                <a href="cart.html" class="action-item"><i class="fas fa-shopping-cart"></i>My cart</a>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="category-dropdown">
+                    <button class="category-btn"><i class="fas fa-bars"></i> All category</button>
+                    <ul class="category-dropdown-menu">
+                        <li><a href="product-card.html">Product Card</a></li>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Fashion</a></li>
+                        <li><a href="#">Home & Garden</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">Automotive</a></li>
+                        <li><a href="#">Books</a></li>
+                        <li><a href="#">Toys</a></li>
+                    </ul>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#">Hot offers</a></li>
+                    <li><a href="#">Gift boxes</a></li>
+                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">Menu item</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Help <i class="fas fa-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Customer Service</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Support Center</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="nav-right">
+                    <select>
+                        <option>English, USD</option>
+                    </select>
+                    <div class="ship-to dropdown">
+                        <button class="dropdown-toggle" id="selected-country">
+                            Ship to <img src="images/US.jpg" alt="US Flag" class="flag-icon" id="selected-flag"> <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu country-menu">
+                            <li><a href="#" data-country="US" data-name="United States"><img src="images/US.jpg" alt="USA" class="flag-icon"> United States</a></li>
+                            <li><a href="#" data-country="GB" data-name="United Kingdom"><img src="images/GB.jpg" alt="UK" class="flag-icon"> United Kingdom</a></li>
+                            <li><a href="#" data-country="DE" data-name="Germany"><img src="images/DE.jpg" alt="Germany" class="flag-icon"> Germany</a></li>
+                            <li><a href="#" data-country="FR" data-name="France"><img src="images/FR.jpg" alt="France" class="flag-icon"> France</a></li>
+                            <li><a href="#" data-country="IT" data-name="Italy"><img src="images/IT.jpg" alt="Italy" class="flag-icon"> Italy</a></li>
+                            <li><a href="#" data-country="AE" data-name="Spain"><img src="images/AE.jpg" alt="Spain" class="flag-icon"> Spain</a></li>
+                            <li><a href="#" data-country="CN" data-name="Canada"><img src="images/CN.jpg" alt="Canada" class="flag-icon"> Canada</a></li>
+                            <li><a href="#" data-country="AU" data-name="Australia"><img src="images/AU.jpg" alt="Australia" class="flag-icon"> Australia</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container" style="max-width: 980px; margin: 20px auto;">
+        <h1 style="font-size: 24px; font-weight: 600; margin-bottom: 20px;">My cart (<span id="cart-item-count">0</span>)</h1>
+        <div style="display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start;">
+            <div style="flex: 2; min-width: 300px; max-width: 750px; background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); padding: 20px;">
+                <div id="cart-items"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <a href="product-card.html" style="background: #E3E8EE; color: #0D6EFD; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-arrow-left"></i> Back to shop
+                    </a>
+                    <button id="remove-all-btn" style="background: none; border: none; color: #EB001B; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 16px;">Remove all</button>
+                </div>
+            </div>
+
+            <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 20px;">
+                <!-- Coupon Section -->
+                <div style="background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); padding: 20px;">
+                    <h3 style="margin-top: 0; margin-bottom: 15px; font-size: 18px; font-weight: 600;">Have a coupon?</h3>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" placeholder="Add coupon" style="flex: 1; padding: 10px; border: 1px solid #E3E8EE; border-radius: 6px; font-size: 15px; min-width: 0;">
+                        <button style="background: #0D6EFD; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-size: 15px;">Apply</button>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div style="background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); padding: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="color: #505050;">Subtotal:</span>
+                        <span id="cart-subtotal" style="font-weight: 500;">$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="color: #505050;">Discount:</span>
+                        <span id="cart-discount" style="color: #EB001B;">-$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <span style="color: #505050;">Tax:</span>
+                        <span id="cart-tax" style="color: #00B517;">+$0.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; padding-top: 15px; border-top: 1px solid #E3E8EE; margin-top: 15px;">
+                        <span>Total:</span>
+                        <span id="cart-total">$0.00</span>
+                    </div>
+                    <button id="checkout-btn" style="padding: 12px 20px; background-color: #00B517; color: white; border: none; border-radius: 6px; margin-top: 20px; width: 100%; cursor: pointer; font-size: 18px; font-weight: 600;">Proceed to Checkout</button>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                        <img src="images/Apple-Pay-Logo.jpg" alt="Apple Pay" style="height: 24px;">
+                        <img src="images/web-141701054.webp" alt="Mastercard" style="height: 24px;">
+                        <img src="images/paypal-logo.jpg" alt="PayPal" style="height: 24px;"> 
+                        <img src="images/images.png" alt="Visa" style="height: 24px;">
+                        <img src="images/google-pay-logo.jpg" alt="Google Pay" style="height: 24px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Services Section -->
+    <section class="container" style="display: flex; justify-content: space-around; margin-top: 20px; margin-bottom: 40px; max-width: 980px; margin: 0 auto;">
+        <div style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #E3E8EE; display: flex; justify-content: center; align-items: center;">
+                <i class="fas fa-lock" style="font-size: 24px; color: #606060;"></i>
+            </div>
+            <h3 style="font-size: 16px; font-weight: 600; color: #222; margin: 0;">Secure payment</h3>
+            <p style="font-size: 14px; color: #787A80; margin: 0;">Have you ever finally just</p>
+        </div>
+        <div style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #E3E8EE; display: flex; justify-content: center; align-items: center;">
+                <i class="fas fa-comment-dots" style="font-size: 24px; color: #606060;"></i>
+            </div>
+            <h3 style="font-size: 16px; font-weight: 600; color: #222; margin: 0;">Customer support</h3>
+            <p style="font-size: 14px; color: #787A80; margin: 0;">Have you ever finally just</p>
+        </div>
+        <div style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #E3E8EE; display: flex; justify-content: center; align-items: center;">
+                <i class="fas fa-truck" style="font-size: 24px; color: #606060;"></i>
+            </div>
+            <h3 style="font-size: 16px; font-weight: 600; color: #222; margin: 0;">Free delivery</h3>
+            <p style="font-size: 14px; color: #787A80; margin: 0;">Have you ever finally just</p>
+        </div>
+    </section>
+
+    <!-- Saved for Later Section -->
+    <section class="container" style="background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); padding: 20px; margin-bottom: 40px; max-width: 980px; margin: 0 auto;">
+        <h2 style="font-size: 20px; font-weight: 600; color: #1C1C1C; margin-bottom: 20px;">Saved for later</h2>
+        <div id="saved-for-later-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+            <div style="border: 1px solid #E3E8EE; border-radius: 8px; overflow: hidden; background: #fff;">
+                <div style="background-color: #F7FAFC; padding: 15px; height: 180px; display: flex; justify-content: center; align-items: center;">
+                    <img src="images/smart-phones.jpg" alt="GoPro HERO6 4K Action Camera - Black" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <div style="padding: 15px;">
+                    <p style="font-size: 18px; font-weight: bold; color: #1C1C1C; margin-bottom: 5px;">$99.50</p>
+                    <p style="font-size: 14px; color: #505050; margin-bottom: 15px;">GoPro HERO6 4K Action Camera - Black</p>
+                    <button style="width: 100%; padding: 8px 12px; background: #fff; color: #0D6EFD; border: 1px solid #E3E8EE; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;" class="move-to-cart-btn" data-product-id="${product.id}">
+                        <i class="fas fa-shopping-cart"></i> Move to cart
+                    </button>
+                </div>
+            </div>
+            <div style="border: 1px solid #E3E8EE; border-radius: 8px; overflow: hidden; background: #fff;">
+                <div style="background-color: #F7FAFC; padding: 15px; height: 180px; display: flex; justify-content: center; align-items: center;">
+                    <img src="images/Mobile.jpg" alt="GoPro HERO6 4K Action Camera - Black" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <div style="padding: 15px;">
+                    <p style="font-size: 18px; font-weight: bold; color: #1C1C1C; margin-bottom: 5px;">$99.50</p>
+                    <p style="font-size: 14px; color: #505050; margin-bottom: 15px;">GoPro HERO6 4K Action Camera - Black</p>
+                    <button style="width: 100%; padding: 8px 12px; background: #fff; color: #0D6EFD; border: 1px solid #E3E8EE; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;" class="move-to-cart-btn" data-product-id="${product.id}">
+                        <i class="fas fa-shopping-cart"></i> Move to cart
+                    </button>
+                </div>
+            </div>
+            <div style="border: 1px solid #E3E8EE; border-radius: 8px; overflow: hidden; background: #fff;">
+                <div style="background-color: #F7FAFC; padding: 15px; height: 180px; display: flex; justify-content: center; align-items: center;">
+                    <img src="images/watch.jpg" alt="GoPro HERO6 4K Action Camera - Black" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <div style="padding: 15px;">
+                    <p style="font-size: 18px; font-weight: bold; color: #1C1C1C; margin-bottom: 5px;">$99.50</p>
+                    <p style="font-size: 14px; color: #505050; margin-bottom: 15px;">GoPro HERO6 4K Action Camera - Black</p>
+                    <button style="width: 100%; padding: 8px 12px; background: #fff; color: #0D6EFD; border: 1px solid #E3E8EE; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;" class="move-to-cart-btn" data-product-id="${product.id}">
+                        <i class="fas fa-shopping-cart"></i> Move to cart
+                    </button>
+                </div>
+            </div>
+            <div style="border: 1px solid #E3E8EE; border-radius: 8px; overflow: hidden; background: #fff;">
+                <div style="background-color: #F7FAFC; padding: 15px; height: 180px; display: flex; justify-content: center; align-items: center;">
+                    <img src="images/Laptop.jpg" alt="GoPro HERO6 4K Action Camera - Black" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <div style="padding: 15px;">
+                    <p style="font-size: 18px; font-weight: bold; color: #1C1C1C; margin-bottom: 5px;">$99.50</p>
+                    <p style="font-size: 14px; color: #505050; margin-bottom: 15px;">GoPro HERO6 4K Action Camera - Black</p>
+                    <button style="width: 100%; padding: 8px 12px; background: #fff; color: #0D6EFD; border: 1px solid #E3E8EE; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;" class="move-to-cart-btn" data-product-id="${product.id}">
+                        <i class="fas fa-shopping-cart"></i> Move to cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Placeholder for whatever.jpg -->
+    <section class="container" style="margin-top: 40px; margin-bottom: 40px; text-align: center;">
+        <img src="images/whatever.jpg" alt="Advertisement" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">
+    </section>
+
+    <!-- Newsletter Section (Copied from product-card.html) -->
+    <section class="newsletter" style="background-color: #f3f5f7; padding: 48px 0; margin-top: 48px;">
+        <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+            <h2 style="font-size: 24px; font-weight: 600; margin-bottom: 12px; color: #222;">Subscribe on our newsletter</h2>
+            <p style="color: #606060; margin-bottom: 24px;">Get daily news on upcoming offers from many suppliers all over the world</p>
+            <form style="display: flex; justify-content: center; gap: 8px;">
+                <div style="position: relative; flex: 1; max-width: 300px;">
+                    <i class="fas fa-envelope" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #8B96A5;"></i>
+                    <input type="email" placeholder="Email" style="width: 100%; padding: 10px 10px 10px 38px; border: 1px solid #E3E8EE; border-radius: 6px; font-size: 16px;">
+                </div>
+                <button type="submit" style="background: #0D6EFD; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-size: 16px; cursor: pointer;">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer (Copied from product-card.html) -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Brand</span>
+                </div>
+                <p>Best information about the company gies here but now lorem ipsum is</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="links-group">
+                    <h3>About</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Find store</a></li>
+                        <li><a href="#">Categories</a></li>
+                        <li><a href="#">Blogs</a></li>
+                    </ul>
+                </div>
+
+                <div class="links-group">
+                    <h3>Partnership</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Find store</a></li>
+                        <li><a href="#">Categories</a></li>
+                        <li><a href="#">Blogs</a></li>
+                    </ul>
+                </div>
+
+                <div class="links-group">
+                    <h3>Information</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Money Refund</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Contact us</a></li>
+                    </ul>
+                </div>
+
+                <div class="links-group">
+                    <h3>For users</h3>
+                    <ul>
+                        <li><a href="#">Login</a></li>
+                        <li><a href="#">Register</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">My Orders</a></li>
+                    </ul>
+                </div>
+
+                <div class="links-group">
+                    <h3>Get app</h3>
+                    <div class="app-buttons">
+                        <a href="#" class="app-btn">
+                            <img src="images/App-Store.jpg" alt="Download on App Store">
+                        </a>
+                        <a href="#" class="app-btn">
+                            <img src="images/GooglePlay.jpg" alt="Get it on Google Play">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <span>© 2023 Ecommerce.</span>
+                <div class="language-selector">
+                    <img src="images/US.jpg" alt="English" class="flag">
+                    <span>English</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartItemCount = document.getElementById('cart-item-count');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+            const cartDiscount = document.getElementById('cart-discount');
+            const cartTax = document.getElementById('cart-tax');
+            const cartTotal = document.getElementById('cart-total');
+            const removeAllBtn = document.getElementById('remove-all-btn');
+
+            function renderCart() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cartItemsContainer.innerHTML = '';
+                let subtotal = 0;
+                const discountRate = 0.05; // 5% discount for example
+                const taxRate = 0.08;    // 8% tax for example
+
+                cartItemCount.textContent = cart.length;
+
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p style="text-align: center; color: #787A80; padding: 20px;">Your cart is empty.</p>';
+                    cartSubtotal.textContent = '$0.00';
+                    cartDiscount.textContent = '-$0.00';
+                    cartTax.textContent = '+$0.00';
+                    cartTotal.textContent = '$0.00';
+                    return;
+                }
+
+                cart.forEach((item, index) => {
+                    const quantity = item.quantity || 1; // Default to 1 if quantity is not set
+                    subtotal += item.price * quantity;
+
+                    const cartItemDiv = document.createElement('div');
+                    cartItemDiv.style.display = 'flex';
+                    cartItemDiv.style.alignItems = 'flex-start';
+                    cartItemDiv.style.marginBottom = '15px';
+                    cartItemDiv.style.border = '1px solid #eee';
+                    cartItemDiv.style.padding = '15px';
+                    cartItemDiv.style.borderRadius = '8px';
+                    cartItemDiv.style.gap = '15px';
+                    cartItemDiv.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;">
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0 0 5px 0; font-size: 16px; font-weight: 600;">${item.title}</h3>
+                            <p style="margin: 0; color: #787A80; font-size: 14px;">Size: ${item.size}, Color: ${item.color}, Material: ${item.material}</p>
+                            <p style="margin: 5px 0 0 0; color: #787A80; font-size: 14px;">Seller: ${item.seller}</p>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <button class="remove-item-btn" data-index="${index}" style="background: none; border: 1px solid #E3E8EE; color: #EB001B; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">Remove</button>
+                                <button style="background: none; border: 1px solid #E3E8EE; color: #0D6EFD; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;">Save for later</button>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="margin: 0 0 10px 0; font-size: 18px; font-weight: bold;">$${(item.price * quantity).toFixed(2)}</p>
+                            <select class="item-quantity-select" data-index="${index}" style="padding: 5px 8px; border: 1px solid #E3E8EE; border-radius: 6px; font-size: 14px;">
+                                ${Array.from({length: 9}, (_, i) => `<option value="${i + 1}" ${quantity === i + 1 ? 'selected' : ''}>Qty: ${i + 1}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(cartItemDiv);
+                });
+
+                const discount = subtotal * discountRate;
+                const tax = subtotal * taxRate;
+                const total = subtotal - discount + tax;
+
+                cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+                cartDiscount.textContent = `-$${discount.toFixed(2)}`;
+                cartTax.textContent = `+$${tax.toFixed(2)}`;
+                cartTotal.textContent = `$${total.toFixed(2)}`;
+
+                // Add event listeners for remove buttons
+                document.querySelectorAll('.remove-item-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const indexToRemove = this.getAttribute('data-index');
+                        removeFromCart(indexToRemove);
+                    });
+                });
+
+                // Add event listeners for quantity selectors
+                document.querySelectorAll('.item-quantity-select').forEach(select => {
+                    select.addEventListener('change', function() {
+                        const indexToUpdate = this.getAttribute('data-index');
+                        const newQuantity = parseInt(this.value);
+                        updateCartItemQuantity(indexToUpdate, newQuantity);
+                    });
+                });
+            }
+
+            function removeFromCart(index) {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.splice(index, 1); // Remove the item at the specified index
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart(); // Re-render the cart after removal
+            }
+
+            function updateCartItemQuantity(index, quantity) {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                if (cart[index]) {
+                    cart[index].quantity = quantity;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    renderCart(); // Re-render the cart after quantity update
+                }
+            }
+
+            // Remove all button functionality
+            if (removeAllBtn) {
+                removeAllBtn.addEventListener('click', function() {
+                    localStorage.removeItem('cart');
+                    renderCart();
+                });
+            }
+
+            // Define savedForLaterProducts data
+            const savedForLaterProductsData = [
+                {
+                    id: 'saved1',
+                    image: 'images/smart-phones.jpg',
+                    title: 'GoPro HERO6 4K Action Camera - Black',
+                    price: 99.50,
+                    size: 'N/A',
+                    color: 'Black',
+                    material: 'Plastic',
+                    seller: 'Tech Emporium LLC'
+                },
+                {
+                    id: 'saved2',
+                    image: 'images/Mobile.jpg',
+                    title: 'GoPro HERO6 4K Action Camera - Black',
+                    price: 99.50,
+                    size: 'N/A',
+                    color: 'Blue',
+                    material: 'Aluminum',
+                    seller: 'Electro Gadgets'
+                },
+                {
+                    id: 'saved3',
+                    image: 'images/watch.jpg',
+                    title: 'GoPro HERO6 4K Action Camera - Black',
+                    price: 99.50,
+                    size: 'Small',
+                    color: 'Grey',
+                    material: 'Silicone',
+                    seller: 'Wearable Tech Co.'
+                },
+                {
+                    id: 'saved4',
+                    image: 'images/Laptop.jpg',
+                    title: 'GoPro HERO6 4K Action Camera - Black',
+                    price: 99.50,
+                    size: '13-inch',
+                    color: 'Silver',
+                    material: 'Metal',
+                    seller: 'CompTech Solutions'
+                }
+            ];
+
+            const savedForLaterContainer = document.getElementById('saved-for-later-grid');
+
+            function renderSavedForLater() {
+                let savedForLater = JSON.parse(localStorage.getItem('savedForLater')) || savedForLaterProductsData;
+                savedForLaterContainer.innerHTML = '';
+
+                if (savedForLater.length === 0) {
+                    savedForLaterContainer.innerHTML = '<p style="text-align: center; color: #787A80; padding: 20px; width: 100%;">No items saved for later.</p>';
+                    return;
+                }
+
+                savedForLater.forEach(product => {
+                    const productCardDiv = document.createElement('div');
+                    productCardDiv.style.border = '1px solid #E3E8EE';
+                    productCardDiv.style.borderRadius = '8px';
+                    productCardDiv.style.overflow = 'hidden';
+                    productCardDiv.style.background = '#fff';
+                    productCardDiv.innerHTML = `
+                        <div style="background-color: #F7FAFC; padding: 15px; height: 180px; display: flex; justify-content: center; align-items: center;">
+                            <img src="${product.image}" alt="${product.title}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </div>
+                        <div style="padding: 15px;">
+                            <p style="font-size: 18px; font-weight: bold; color: #1C1C1C; margin-bottom: 5px;">$${product.price.toFixed(2)}</p>
+                            <p style="font-size: 14px; color: #505050; margin-bottom: 15px;">${product.title}</p>
+                            <button style="width: 100%; padding: 8px 12px; background: #E5F1FF; color: #0D6EFD; border: 1px solid #0D6EFD; border-radius: 6px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;" class="move-to-cart-btn" data-product-id="${product.id}">
+                                <i class="fas fa-shopping-cart"></i> Move to cart
+                            </button>
+                        </div>
+                    `;
+                    savedForLaterContainer.appendChild(productCardDiv);
+                });
+
+                // Add event listeners for 'Move to cart' buttons
+                document.querySelectorAll('.move-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productId = this.getAttribute('data-product-id');
+                        moveItemToCart(productId);
+                    });
+                });
+            }
+
+            function moveItemToCart(productId) {
+                let savedForLater = JSON.parse(localStorage.getItem('savedForLater')) || savedForLaterProductsData;
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                const productIndex = savedForLater.findIndex(p => p.id === productId);
+
+                if (productIndex !== -1) {
+                    const productToMove = savedForLater.splice(productIndex, 1)[0];
+                    const existingCartItem = cart.find(item => item.id === productToMove.id);
+
+                    if (existingCartItem) {
+                        existingCartItem.quantity = (existingCartItem.quantity || 1) + 1;
+                    } else {
+                        productToMove.quantity = 1;
+                        cart.push(productToMove);
+                    }
+
+                    localStorage.setItem('savedForLater', JSON.stringify(savedForLater));
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    renderCart();
+                    renderSavedForLater();
+                }
+            }
+
+            renderCart();
+            renderSavedForLater(); // Initial render of saved for later items
+        });
+    </script>
+</body>
+</html> 
